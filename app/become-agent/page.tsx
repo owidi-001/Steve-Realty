@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { 
-  User, Mail, Phone, MapPin, Briefcase, Award, Upload, 
+import {
+  User, Award,
   CheckCircle, Shield, Users, TrendingUp, DollarSign,
-  Star, Clock, FileText, Calendar, Building2, Sparkles,
+  FileText, Building2, Sparkles,
   ArrowRight, Check, X, HelpCircle, ExternalLink
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -15,7 +15,6 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import MenuBar from '@/components/common/navbar'
 import { Progress } from '@/components/ui/progress'
-import { Badge } from '@/components/ui/badge'
 
 const BENEFITS = [
   {
@@ -123,7 +122,7 @@ export default function BecomeAgentPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const file = e.target.files?.[0] || null
     setFormData(prev => ({ ...prev, [field]: file }))
-    
+
     // Simulate upload progress
     if (file) {
       let progress = 0
@@ -157,10 +156,10 @@ export default function BecomeAgentPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000))
-    
+
     setIsSubmitting(false)
     setIsSubmitted(true)
   }
@@ -182,6 +181,7 @@ export default function BecomeAgentPage() {
                   onChange={handleInputChange}
                   placeholder="John"
                   required
+                  className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
                 />
               </div>
               <div>
@@ -195,10 +195,11 @@ export default function BecomeAgentPage() {
                   onChange={handleInputChange}
                   placeholder="Doe"
                   required
+                  className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <Label htmlFor="email" className="mb-2 block">
@@ -212,6 +213,7 @@ export default function BecomeAgentPage() {
                   onChange={handleInputChange}
                   placeholder="john@example.com"
                   required
+                  className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
                 />
               </div>
               <div>
@@ -225,10 +227,11 @@ export default function BecomeAgentPage() {
                   onChange={handleInputChange}
                   placeholder="+254 700 123 456"
                   required
+                  className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
                 />
               </div>
             </div>
-            
+
             <div>
               <Label htmlFor="location" className="mb-2 block">
                 Current Location *
@@ -240,11 +243,12 @@ export default function BecomeAgentPage() {
                 onChange={handleInputChange}
                 placeholder="Nairobi, Westlands"
                 required
+                className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
               />
             </div>
           </div>
         )
-      
+
       case 2:
         return (
           <div className="space-y-6">
@@ -267,7 +271,7 @@ export default function BecomeAgentPage() {
                 <option value="5+">5+ years</option>
               </select>
             </div>
-            
+
             <div>
               <Label htmlFor="education" className="mb-2 block">
                 Highest Education Level *
@@ -279,9 +283,10 @@ export default function BecomeAgentPage() {
                 onChange={handleInputChange}
                 placeholder="e.g., Bachelor's Degree in Business"
                 required
+                className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
               />
             </div>
-            
+
             <div>
               <Label htmlFor="currentOccupation" className="mb-2 block">
                 Current Occupation
@@ -292,9 +297,10 @@ export default function BecomeAgentPage() {
                 value={formData.currentOccupation}
                 onChange={handleInputChange}
                 placeholder="e.g., Sales Manager"
+                className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
               />
             </div>
-            
+
             <div>
               <Label htmlFor="motivation" className="mb-2 block">
                 Why do you want to become a real estate agent? *
@@ -307,11 +313,12 @@ export default function BecomeAgentPage() {
                 placeholder="Tell us about your passion for real estate and what drives you..."
                 rows={4}
                 required
+                className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
               />
             </div>
           </div>
         )
-      
+
       case 3:
         return (
           <div className="space-y-6">
@@ -319,7 +326,7 @@ export default function BecomeAgentPage() {
               <Label className="mb-4 block text-sm font-semibold text-foreground">
                 Upload Required Documents
               </Label>
-              
+
               <div className="space-y-4">
                 {/* Resume/CV */}
                 <div className="border border-dashed border-border rounded-lg p-6 hover:border-primary/50 transition-colors">
@@ -356,12 +363,13 @@ export default function BecomeAgentPage() {
                           accept=".pdf,.doc,.docx"
                           onChange={(e) => handleFileChange(e, 'resume')}
                           className="cursor-pointer"
+                        // className="bg-muted border-0 rounded-sm h-10 placeholder-muted-foreground"
                         />
                       )}
                     </div>
                   </div>
                 </div>
-                
+
                 {/* ID Document */}
                 <div className="border border-dashed border-border rounded-lg p-6 hover:border-primary/50 transition-colors">
                   <div className="flex items-center gap-4">
@@ -402,7 +410,7 @@ export default function BecomeAgentPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Certificates */}
                 <div className="border border-dashed border-border rounded-lg p-6 hover:border-primary/50 transition-colors">
                   <div className="flex items-center gap-4">
@@ -444,7 +452,7 @@ export default function BecomeAgentPage() {
                   </div>
                 </div>
               </div>
-              
+
               {uploadProgress > 0 && uploadProgress < 100 && (
                 <div className="mt-4">
                   <div className="flex justify-between text-sm text-muted-foreground mb-2">
@@ -457,7 +465,7 @@ export default function BecomeAgentPage() {
             </div>
           </div>
         )
-      
+
       case 4:
         return (
           <div className="space-y-6">
@@ -466,7 +474,7 @@ export default function BecomeAgentPage() {
                 <Shield className="w-6 h-6 text-primary" />
                 <h3 className="font-semibold text-foreground">Terms & Conditions</h3>
               </div>
-              
+
               <div className="space-y-4 text-sm text-muted-foreground">
                 <p>By submitting this application, you agree to:</p>
                 <ul className="space-y-2 list-disc pl-5">
@@ -477,7 +485,7 @@ export default function BecomeAgentPage() {
                   <li>Follow company policies and procedures</li>
                   <li>Work under our commission structure agreement</li>
                 </ul>
-                
+
                 <div className="pt-4 border-t border-border">
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input
@@ -495,7 +503,7 @@ export default function BecomeAgentPage() {
                 </div>
               </div>
             </div>
-            
+
             <div>
               <Label htmlFor="referral" className="mb-2 block">
                 Referral Code (Optional)
@@ -511,7 +519,7 @@ export default function BecomeAgentPage() {
                 If someone referred you, enter their code here.
               </p>
             </div>
-            
+
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-green-600" />
@@ -525,7 +533,7 @@ export default function BecomeAgentPage() {
             </div>
           </div>
         )
-      
+
       default:
         return null
     }
@@ -535,25 +543,24 @@ export default function BecomeAgentPage() {
     <main className="min-h-screen bg-background">
       {/* Menu Bar */}
       <MenuBar />
-      
+
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b border-border/50">
-        <div className="mx-auto container px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto container px-4 sm:px-6 lg:px-8 py-12 py-12">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               Join Our Elite Team
             </div>
-            
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               Become a <span className="text-primary">Real Estate Agent</span>
             </h1>
-            
+
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Start your rewarding career in real estate with Kenya's leading property agency. 
+              Start your rewarding career in real estate with Kenya's leading property agency.
               Earn unlimited income while helping people find their dream homes.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="gap-2" asChild>
                 <Link href="#application">
@@ -572,24 +579,24 @@ export default function BecomeAgentPage() {
       </div>
 
       {/* Benefits Section */}
-      <div id="benefits" className="py-16">
+      <div id="benefits" className="py-12">
         <div className="mx-auto container px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Why Join Our Team?
+              Why Join Our <span className="text-primary">Team?</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               We provide everything you need to succeed in your real estate career
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {BENEFITS.map((benefit, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <Card key={index} className="p-4 hover:shadow-lg transition-shadow rounded-sm">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
                   {benefit.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
+                <h3 className="text-lg font-semibold text-foreground">
                   {benefit.title}
                 </h3>
                 <p className="text-muted-foreground">
@@ -602,17 +609,17 @@ export default function BecomeAgentPage() {
       </div>
 
       {/* Requirements Section */}
-      <div className="py-16 bg-muted/30">
+      <div className="py-12 bg-muted/30">
         <div className="mx-auto container px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-foreground mb-6">
+              <h2 className="text-3xl font-bold text-foreground mb-2">
                 Who We're Looking For
               </h2>
-              <p className="text-lg text-muted-foreground mb-8">
+              <p className="text-lg text-muted-foreground mb-4">
                 You don't need prior real estate experience. We're looking for motivated individuals with:
               </p>
-              
+
               <div className="space-y-4">
                 {REQUIREMENTS.map((requirement, index) => (
                   <div key={index} className="flex items-center gap-3">
@@ -624,9 +631,9 @@ export default function BecomeAgentPage() {
                 ))}
               </div>
             </div>
-            
+
             <div>
-              <Card className="p-8">
+              <Card className="p-4 rounded-sm">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
                     <Users className="w-8 h-8 text-primary" />
@@ -638,7 +645,7 @@ export default function BecomeAgentPage() {
                     85% of our new agents exceed their income targets within 6 months
                   </p>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-foreground">Average Monthly Income</span>
@@ -664,21 +671,21 @@ export default function BecomeAgentPage() {
       </div>
 
       {/* Application Process */}
-      <div className="py-16">
+      <div className="py-12">
         <div className="mx-auto container px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-foreground mb-2">
               Simple 4-Step Process
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               From application to your first sale in just 30 days
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
             {STEPS.map((step) => (
               <div key={step.number} className="relative">
-                <Card className="p-6 text-center">
+                <Card className="p-6 text-center rounded-sm">
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 ${currentStep >= step.number ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
                     <span className="font-bold text-lg">{step.number}</span>
                   </div>
@@ -690,7 +697,7 @@ export default function BecomeAgentPage() {
                   </p>
                 </Card>
                 {step.number < 4 && (
-                  <div className="hidden lg:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
+                  <div className="hidden lg:block absolute top-1/2 -right-3 transform translate-x-1/2 -translate-y-1/2">
                     <ArrowRight className="w-6 h-6 text-muted-foreground" />
                   </div>
                 )}
@@ -728,7 +735,7 @@ export default function BecomeAgentPage() {
               </div>
             </div>
           ) : (
-            <Card className="max-w-4xl mx-auto overflow-hidden">
+            <Card className="max-w-6xl mx-auto overflow-hidden p-0 rounded-sm">
               {/* Progress Bar */}
               <div className="bg-muted border-b border-border p-6">
                 <div className="flex items-center justify-between mb-2">
@@ -741,7 +748,7 @@ export default function BecomeAgentPage() {
                 </div>
                 <Progress value={(currentStep / 4) * 100} className="h-2" />
               </div>
-              
+
               {/* Form Content */}
               <form onSubmit={handleSubmit} className="p-6 md:p-8">
                 <div className="mb-8">
@@ -758,9 +765,9 @@ export default function BecomeAgentPage() {
                     {currentStep === 4 && 'Review and submit your application'}
                   </p>
                 </div>
-                
+
                 {renderStep()}
-                
+
                 {/* Navigation Buttons */}
                 <div className="flex justify-between pt-8 mt-8 border-t border-border">
                   <Button
@@ -771,7 +778,7 @@ export default function BecomeAgentPage() {
                   >
                     Previous
                   </Button>
-                  
+
                   {currentStep < 4 ? (
                     <Button
                       type="button"
@@ -809,7 +816,7 @@ export default function BecomeAgentPage() {
               Hear from some of our top-performing agents
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {TESTIMONIALS.map((testimonial, index) => (
               <Card key={index} className="p-6">
@@ -852,7 +859,7 @@ export default function BecomeAgentPage() {
               Get answers to common questions about becoming an agent
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
               {
@@ -895,7 +902,7 @@ export default function BecomeAgentPage() {
               </Card>
             ))}
           </div>
-          
+
           <div className="text-center mt-12">
             <p className="text-muted-foreground mb-4">
               Still have questions?

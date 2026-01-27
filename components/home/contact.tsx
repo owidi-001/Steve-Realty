@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Mail, Send, Check, Loader2, MessageSquare, Phone } from "lucide-react";
+import { Mail, Send, Check, Loader2, Phone } from "lucide-react";
 // import { PHONE, EMAIL, INSTAGRAM, FACEBOOK, MESSAGE } from "@/types/constants";
 import { FaFacebook, FaInstagram, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import { PHONE, MESSAGE, EMAIL, FACEBOOK, INSTAGRAM } from "@/types/constants";
@@ -17,7 +17,7 @@ export default function ContactComponent() {
     const [success, setSuccess] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<"social" | "newsletter">("social");
 
-    const handleSubscribe = async (e: React.FormEvent) => {
+    const handleSubscribe = async () => {
         // e.preventDefault();
         // setError(null);
         // setSuccess(null);

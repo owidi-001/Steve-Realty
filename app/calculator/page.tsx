@@ -5,16 +5,10 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
   DollarSign,
-  Home,
-  Percent,
-  Calendar,
-  Download,
   RotateCcw,
   Calculator,
-  Eye,
   ChevronRight
 } from 'lucide-react'
-import Link from 'next/link'
 import MenuBar from '@/components/common/navbar'
 
 interface MortgageInputs {
@@ -95,13 +89,6 @@ export default function MortgageCalculator() {
     })
   }
 
-  const handleDownPaymentPercentage = (percent: number) => {
-    const newDownPayment = (inputs.propertyPrice * percent) / 100
-    setInputs((prev) => ({
-      ...prev,
-      downPayment: Math.round(newDownPayment),
-    }))
-  }
 
   const resetCalculator = () => {
     setInputs({
@@ -127,27 +114,6 @@ export default function MortgageCalculator() {
     return formatCurrency(value)
   }
 
-  const downloadReport = () => {
-    const reportContent = `
-Mortgage Calculator Report
-Property Price: ${formatCurrency(inputs.propertyPrice)}
-Down Payment: ${formatCurrency(inputs.downPayment)} (${results.downPaymentPercent.toFixed(1)}%)
-Loan Amount: ${formatCurrency(results.loanAmount)}
-Interest Rate: ${inputs.interestRate}% per annum
-Loan Term: ${inputs.loanTerm} years
-Monthly Payment: ${formatCurrency(results.monthlyPayment)}
-Total Payment: ${formatCurrency(results.totalPayment)}
-Total Interest: ${formatCurrency(results.totalInterest)}
-Generated: ${new Date().toLocaleDateString('en-KE')}
-`
-    const blob = new Blob([reportContent], { type: 'text/plain' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'mortgage-report.txt'
-    a.click()
-    window.URL.revokeObjectURL(url)
-  }
 
   return (
     <main className="min-h-screen bg-background/50">
@@ -158,7 +124,7 @@ Generated: ${new Date().toLocaleDateString('en-KE')}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-1">
             <Calculator className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
               Mortgage Calculator
             </h1>
           </div>
