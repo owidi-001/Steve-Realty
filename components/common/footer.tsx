@@ -48,8 +48,8 @@ export default function Footer() {
                         <h5 className="font-semibold mb-4">Company</h5>
                         <ul className="space-y-2 text-sm text-background/80">
                             <li>
-                                <a href="#" className="hover:text-background transition-colors">
-                                    About Us
+                                <a href="/admin/dashboard" className="hover:text-background transition-colors">
+                                    Dashboard
                                 </a>
                             </li>
                             <li>

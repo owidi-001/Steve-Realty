@@ -84,6 +84,16 @@ export default function MenuBar() {
 
     ]
 
+    
+    // Main Admin Navigation Items
+    const adminNavItems: NavItem[] = [
+        {
+            label: 'Dashboard',
+            href: '/dashboard',
+            icon: <Search className="w-4 h-4" />
+        }
+    ]
+
     const toggleDropdown = (label: string) => {
         setActiveDropdown(activeDropdown === label ? null : label)
     }
