@@ -452,7 +452,7 @@ export default function BlogPage() {
                                 <div className="flex items-center justify-between mb-6">
                                     <h2 className="text-2xl font-bold text-foreground">Featured Articles</h2>
                                     <Badge variant="outline" className="gap-1">
-                                        <Sparkles className="w-3 h-3" />
+
                                         Editor's Pick
                                     </Badge>
                                 </div>
@@ -616,7 +616,6 @@ export default function BlogPage() {
                                                 {post.featured && (
                                                     <div className="absolute top-4 right-4">
                                                         <Badge className="bg-orange-500 text-white">
-                                                            <Sparkles className="w-3 h-3 mr-1" />
                                                             Featured
                                                         </Badge>
                                                     </div>

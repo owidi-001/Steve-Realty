@@ -13,7 +13,8 @@ import {
     ChevronDown,
     Calculator,
     MapPin,
-    Newspaper
+    Newspaper,
+    LogIn
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -43,27 +44,9 @@ export default function MenuBar() {
     // Main Navigation Items
     const navItems: NavItem[] = [
         {
-            label: 'Home',
-            href: '/',
-            icon: <Home className="w-4 h-4" />
-        },
-        {
             label: 'Search',
-            href: '/search',
-            icon: <Search className="w-4 h-4" />
-        },
-        {
-            label: 'Listings',
             href: '/listings',
-            icon: <MapPin className="w-4 h-4" />,
-            children: [
-                { label: 'Featured Listings', href: '/listings?filter=featured', description: 'Our top picks' },
-                { label: 'Recent Listings', href: '/listings?filter=recent', description: 'New on market' },
-                { label: 'Exclusive Listings', href: '/listings?filter=exclusive', description: 'Limited access' },
-                { label: 'Hot Deals', href: '/listings?filter=hot-deals', description: 'Best value offers' },
-                { label: 'Sold Properties', href: '/listings?filter=sold', description: 'Recent transactions' },
-                { label: 'Coming Soon', href: '/listings?filter=coming-soon', description: 'Upcoming properties' },
-            ]
+            icon: <Search className="w-4 h-4" />
         },
         {
             label: 'Agents',
@@ -92,7 +75,13 @@ export default function MenuBar() {
             label: 'Contact',
             href: '#contact',
             icon: <Phone className="w-4 h-4" />
-        }
+        },
+        {
+            label: 'Mortgage calculator',
+            href: '/calculator',
+            icon: <Calculator className="w-4 h-4" />
+        },
+
     ]
 
     const toggleDropdown = (label: string) => {
@@ -194,6 +183,10 @@ export default function MenuBar() {
 
                         {/* User Actions */}
                         <div className="hidden lg:flex items-center gap-2">
+                            <Link href={'/become-agent'} className="flex items-center px-2 py-1 gap-2 rounded-sm bg-primary text-primary-foreground hover:bg-primary/90">
+                                <UserPlus className="w-4 h-4" />
+                                <span>Become an Agent</span>
+                            </Link>
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -201,14 +194,10 @@ export default function MenuBar() {
                                 asChild
                             >
                                 <Link href="/calculator" className="flex items-center gap-2">
-                                    <Calculator className="w-6 h-6" />
-                                    Mortgage Calculator
+                                    <LogIn className="w-6 h-6" />
+                                    Login
                                 </Link>
                             </Button>
-                            <Link href={'/become-agent'} className="flex items-center px-2 py-1 gap-2 rounded-sm bg-primary text-primary-foreground hover:bg-primary/90">
-                                <UserPlus className="w-4 h-4" />
-                                <span>Become an Agent</span>
-                            </Link>
                         </div>
 
                         {/* Mobile Menu Button */}
@@ -293,8 +282,8 @@ export default function MenuBar() {
                                         asChild
                                     >
                                         <Link href="/tools/calculator" className="flex items-center gap-2">
-                                            <Calculator className="w-6 h-6" />
-                                            Mortgage Calculator
+                                            <LogIn className="w-6 h-6" />
+                                            Login
                                         </Link>
                                     </Button>
                                     <Link
