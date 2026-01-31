@@ -152,8 +152,8 @@ export default function ContactComponent() {
                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${social.color}`}>
                                             <Icon className="w-5 h-5 text-white" />
                                         </div>
-                                        <div className="text-xs font-medium text-foreground">{social.name}</div>
-                                        <div className="text-[10px] text-muted-foreground mt-1">{social.description}</div>
+                                        <div className="text-md font-medium text-foreground">{social.name}</div>
+                                        <div className="text-xs text-muted-foreground mt-1">{social.description}</div>
                                     </div>
                                 );
 
@@ -181,7 +181,7 @@ export default function ContactComponent() {
 
                         {/* Quick Actions */}
                         <div className="border-t border-border pt-4">
-                            <p className="text-sm text-muted-foreground mb-3">Need immediate help?</p>
+                            <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-2xl mx-auto">Need immediate help?</p>
                             <div className="flex gap-2">
                                 <Button
                                     onClick={handleWhatsAppClick}
@@ -208,7 +208,7 @@ export default function ContactComponent() {
                     <div className={`bg-card border rounded-md p-6 transition-all ${activeTab === "newsletter" ? "opacity-100" : "md:opacity-100 opacity-50"}`}>
                         <h4 className="font-medium text-foreground mb-4">Get Updates</h4>
 
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-2xl mx-auto">
                             Be the first to know about new listings, exclusive deals, and top realty tips.
                         </p>
 
@@ -295,7 +295,7 @@ export default function ContactComponent() {
                         </form>
 
                         <div className="mt-4 pt-4 border-t border-border">
-                            <p className="text-xs text-muted-foreground text-center">
+                            <p className="text-muted-foreground text-base md:text-sm mb-6 max-w-2xl mx-auto">
                                 No spam. Unsubscribe anytime. Typically respond within 2 hours.
                             </p>
                         </div>

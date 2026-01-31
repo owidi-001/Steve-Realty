@@ -2,6 +2,9 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } f
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
+// Helper to check if we're in the browser
+const isBrowser = typeof window !== 'undefined';
+
 // Create axios instance
 const api: AxiosInstance = axios.create({
     baseURL: API_BASE_URL,
@@ -14,9 +17,11 @@ const api: AxiosInstance = axios.create({
 // Request interceptor - Add auth token
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-            config.headers.Authorization = `Token ${token}`;
+        if (isBrowser) {
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                config.headers.Authorization = `Token ${token}`;
+            }
         }
         return config;
     },
@@ -29,11 +34,15 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response: AxiosResponse) => response,
     (error: AxiosError) => {
-        if (error.response?.status === 401) {
+        if (error.response?.status === 401 && isBrowser) {
             // Unauthorized - clear token and redirect to login
             localStorage.removeItem('auth_token');
             localStorage.removeItem('user');
-            window.location.href = '/login';
+            
+            // Only redirect if not already on login page
+            if (window.location.pathname !== '/admin/login') {
+                window.location.href = '/admin/login';
+            }
         }
         return Promise.reject(error);
     }

@@ -1,13 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authService } from '@/services/auth.service';
+import { useEffect, useState } from 'react';
 
 export const useAuth = () => {
   const queryClient = useQueryClient();
+  const [mounted, setMounted] = useState(false);
+
+  // Only run on client-side after hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => authService.getCurrentUser(),
-    enabled: authService.isAuthenticated(),
+    enabled: mounted && authService.isAuthenticated(),
     retry: false,
   });
 
@@ -45,8 +52,8 @@ export const useAuth = () => {
 
   return {
     user,
-    isLoading,
-    isAuthenticated: authService.isAuthenticated(),
+    isLoading: !mounted || isLoading,
+    isAuthenticated: mounted && authService.isAuthenticated(),
     login: loginMutation.mutateAsync,
     register: registerMutation.mutateAsync,
     logout: logoutMutation.mutateAsync,
@@ -56,4 +63,3 @@ export const useAuth = () => {
     isRegistering: registerMutation.isPending,
   };
 };
-

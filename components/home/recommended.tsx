@@ -1,157 +1,367 @@
 'use client'
 
-import { Heart, MapPin, Bed, Bath, Ruler as Ruler2, ChevronRight, DollarSign, HomeIcon, Award, Users, TrendingUp, Shield, Zap, Handshake, Eye, Maximize2 } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { useState } from 'react'
+import ListingCardComponent, { ListingCard } from '../common/property_card'
 
 
 // Data Constants
-const RECOMMENDED_LISTINGS = {
+export const RECOMMENDED_LISTINGS = {
     apartments: [
         {
-            id: 1,
+            id: 'apt-001',
+            reference_number: 'REF-2026-001',
             title: 'Modern Apartment in Westlands',
-            price: 28000000,
-            location: 'Westlands, Nairobi',
-            beds: 3,
-            baths: 2,
-            sqft: 3200,
-            tag: 'New Listing',
-            image:
-                'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop',
+            slug: 'modern-apartment-westlands',
+            short_description: 'Contemporary 3-bedroom apartment with stunning city views and modern amenities',
+            type: 'Apartment',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 28000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 28,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&h=300&fit=crop',
+                caption: 'Living room with city view'
+            },
+            location_summary: 'Westlands, Nairobi',
+            bedrooms: 3,
+            bathrooms: 2,
+            interior_size: 297, // ~3200 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: true,
+            is_exclusive: false,
+            view_count: 145,
+            favorite_count: 12,
+            created_at: '2026-01-28T10:30:00Z'
         },
         {
-            id: 2,
+            id: 'apt-002',
+            reference_number: 'REF-2026-002',
             title: 'Executive Suite in Nairobi CBD',
-            price: 22000000,
-            location: 'Nairobi CBD',
-            beds: 2,
-            baths: 2,
-            sqft: 2400,
-            tag: 'Hot Deal',
-            image:
-                'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop',
+            slug: 'executive-suite-nairobi-cbd',
+            short_description: 'Prime location executive suite with premium finishes and excellent accessibility',
+            type: 'Apartment',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 22000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 22,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop',
+                caption: 'Modern executive suite interior'
+            },
+            location_summary: 'Nairobi CBD',
+            bedrooms: 2,
+            bathrooms: 2,
+            interior_size: 223, // ~2400 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: true,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 289,
+            favorite_count: 24,
+            created_at: '2026-01-15T14:20:00Z'
         },
         {
-            id: 3,
+            id: 'apt-003',
+            reference_number: 'REF-2026-003',
             title: 'Beachfront Luxury Apartment',
-            price: 35000000,
-            location: 'Malindi, Coast',
-            beds: 3,
-            baths: 2,
-            sqft: 3100,
-            tag: 'Featured',
-            image:
-                'https://images.unsplash.com/photo-1712026258065-fa5d5f58584e?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            slug: 'beachfront-luxury-apartment-malindi',
+            short_description: 'Stunning beachfront property with panoramic ocean views and private beach access',
+            type: 'Apartment',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 35000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 35,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1712026258065-fa5d5f58584e?q=80&w=2064&auto=format&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1712026258065-fa5d5f58584e?q=80&w=400&auto=format&fit=crop',
+                caption: 'Beachfront view'
+            },
+            location_summary: 'Malindi, Coast',
+            bedrooms: 3,
+            bathrooms: 2,
+            interior_size: 288, // ~3100 sqft converted to m²
+            is_featured: true,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 512,
+            favorite_count: 45,
+            created_at: '2026-01-10T09:15:00Z'
         },
         {
-            id: 4,
+            id: 'apt-004',
+            reference_number: 'REF-2026-004',
             title: 'Cozy Studio in Kilimani',
-            price: 12000000,
-            location: 'Kilimani, Nairobi',
-            beds: 1,
-            baths: 1,
-            sqft: 1200,
-            image:
-                'https://images.unsplash.com/photo-1717335291510-a0e3f306c08b?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            slug: 'cozy-studio-kilimani',
+            short_description: 'Perfect starter home or investment property in prime Kilimani location',
+            type: 'Studio',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 12000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 12,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1717335291510-a0e3f306c08b?q=80&w=774&auto=format&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1717335291510-a0e3f306c08b?q=80&w=400&auto=format&fit=crop',
+                caption: 'Cozy studio interior'
+            },
+            location_summary: 'Kilimani, Nairobi',
+            bedrooms: 1,
+            bathrooms: 1,
+            interior_size: 111, // ~1200 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 178,
+            favorite_count: 9,
+            created_at: '2026-01-20T11:45:00Z'
         },
         {
-            id: 5,
+            id: 'apt-005',
+            reference_number: 'REF-2026-005',
             title: 'Penthouse in Karen',
-            price: 55000000,
-            location: 'Karen, Nairobi',
-            beds: 4,
-            baths: 3,
-            sqft: 4200,
-            tag: 'Luxury',
-            image:
-                'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
+            slug: 'penthouse-karen',
+            short_description: 'Exclusive penthouse with rooftop terrace, premium finishes, and breathtaking views',
+            type: 'Penthouse',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 55000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 55,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop',
+                caption: 'Luxury penthouse living'
+            },
+            location_summary: 'Karen, Nairobi',
+            bedrooms: 4,
+            bathrooms: 3,
+            interior_size: 390, // ~4200 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: true,
+            view_count: 423,
+            favorite_count: 38,
+            created_at: '2026-01-08T16:30:00Z'
         },
         {
-            id: 6,
+            id: 'apt-006',
+            reference_number: 'REF-2026-006',
             title: 'Garden Townhouse in Muthaiga',
-            price: 32000000,
-            location: 'Muthaiga, Nairobi',
-            beds: 4,
-            baths: 3,
-            sqft: 3900,
-            image:
-                'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=600&fit=crop',
+            slug: 'garden-townhouse-muthaiga',
+            short_description: 'Elegant townhouse with private garden in prestigious Muthaiga neighborhood',
+            type: 'Townhouse',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 32000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 32,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=600&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=400&h=300&fit=crop',
+                caption: 'Townhouse exterior with garden'
+            },
+            location_summary: 'Muthaiga, Nairobi',
+            bedrooms: 4,
+            bathrooms: 3,
+            interior_size: 362, // ~3900 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 201,
+            favorite_count: 16,
+            created_at: '2026-01-12T13:20:00Z'
         },
-    ],
+    ] as ListingCard[],
     houses: [
         {
-            id: 7,
+            id: 'hse-001',
+            reference_number: 'REF-2026-007',
             title: '4-Bedroom Villa in Karen',
-            price: 45000000,
-            location: 'Karen, Nairobi',
-            beds: 4,
-            baths: 3,
-            sqft: 4500,
-            tag: 'Featured',
-            image:
-                'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop',
+            slug: '4-bedroom-villa-karen',
+            short_description: 'Magnificent villa with expansive grounds, swimming pool, and luxury amenities',
+            type: 'Villa',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 45000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 45,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop',
+                caption: 'Luxury villa exterior'
+            },
+            location_summary: 'Karen, Nairobi',
+            bedrooms: 4,
+            bathrooms: 3,
+            interior_size: 418, // ~4500 sqft converted to m²
+            is_featured: true,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 634,
+            favorite_count: 52,
+            created_at: '2026-01-05T10:00:00Z'
         },
         {
-            id: 8,
+            id: 'hse-002',
+            reference_number: 'REF-2026-008',
             title: 'Family Home in Brookside',
-            price: 38000000,
-            location: 'Brookside, Nairobi',
-            beds: 5,
-            baths: 4,
-            sqft: 5200,
-            image:
-                'https://images.pexels.com/photos/7163610/pexels-photo-7163610.jpeg?_gl=1*1wedhj2*_ga*MTg4NTAwMjcwMy4xNzY5NDU4NjQ3*_ga_8JE65Q40S6*czE3Njk0NTg2NDckbzEkZzEkdDE3Njk0NTg2OTYkajExJGwwJGgw',
+            slug: 'family-home-brookside',
+            short_description: 'Spacious family home with large compound, perfect for growing families',
+            type: 'House',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 38000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 38,000,000',
+            primary_image: {
+                url: 'https://images.pexels.com/photos/7163610/pexels-photo-7163610.jpeg',
+                thumbnail: 'https://images.pexels.com/photos/7163610/pexels-photo-7163610.jpeg?w=400&h=300',
+                caption: 'Family home exterior'
+            },
+            location_summary: 'Brookside, Nairobi',
+            bedrooms: 5,
+            bathrooms: 4,
+            interior_size: 483, // ~5200 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 345,
+            favorite_count: 28,
+            created_at: '2026-01-18T15:45:00Z'
         },
         {
-            id: 9,
+            id: 'hse-003',
+            reference_number: 'REF-2026-009',
             title: 'Elegant Bungalow in Upper Hill',
-            price: 42000000,
-            location: 'Upper Hill, Nairobi',
-            beds: 4,
-            baths: 3,
-            sqft: 4100,
-            tag: 'New Listing',
-            image:
-                'https://images.pexels.com/photos/28127226/pexels-photo-28127226.jpeg?_gl=1*fmqb13*_ga*MTg4NTAwMjcwMy4xNzY5NDU4NjQ3*_ga_8JE65Q40S6*czE3Njk0NTg2NDckbzEkZzEkdDE3Njk0NTg2NTgkajQ5JGwwJGgw',
+            slug: 'elegant-bungalow-upper-hill',
+            short_description: 'Charming single-story bungalow with modern finishes in convenient location',
+            type: 'Bungalow',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 42000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 42,000,000',
+            primary_image: {
+                url: 'https://images.pexels.com/photos/28127226/pexels-photo-28127226.jpeg',
+                thumbnail: 'https://images.pexels.com/photos/28127226/pexels-photo-28127226.jpeg?w=400&h=300',
+                caption: 'Elegant bungalow'
+            },
+            location_summary: 'Upper Hill, Nairobi',
+            bedrooms: 4,
+            bathrooms: 3,
+            interior_size: 381, // ~4100 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: true,
+            is_exclusive: false,
+            view_count: 267,
+            favorite_count: 19,
+            created_at: '2026-01-25T09:30:00Z'
         },
         {
-            id: 10,
+            id: 'hse-004',
+            reference_number: 'REF-2026-010',
             title: 'Modern Townhouse in Kilimani',
-            price: 18000000,
-            location: 'Kilimani, Nairobi',
-            beds: 3,
-            baths: 2,
-            sqft: 2800,
-            image:
-                'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
+            slug: 'modern-townhouse-kilimani',
+            short_description: 'Contemporary townhouse with smart home features and modern design',
+            type: 'Townhouse',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 18000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 18,000,000',
+            primary_image: {
+                url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
+                thumbnail: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop',
+                caption: 'Modern townhouse'
+            },
+            location_summary: 'Kilimani, Nairobi',
+            bedrooms: 3,
+            bathrooms: 2,
+            interior_size: 260, // ~2800 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 189,
+            favorite_count: 14,
+            created_at: '2026-01-22T12:15:00Z'
         },
         {
-            id: 11,
+            id: 'hse-005',
+            reference_number: 'REF-2026-011',
             title: 'Luxury Estate in Muthaiga',
-            price: 60000000,
-            location: 'Muthaiga, Nairobi',
-            beds: 5,
-            baths: 4,
-            sqft: 5800,
-            tag: 'Luxury',
-            image:
-                'https://images.pexels.com/photos/33738275/pexels-photo-33738275.jpeg?_gl=1*acs2es*_ga*MTg4NTAwMjcwMy4xNzY5NDU4NjQ3*_ga_8JE65Q40S6*czE3Njk0NTg2NDckbzEkZzEkdDE3Njk0NTg3NTEkajQzJGwwJGgw',
+            slug: 'luxury-estate-muthaiga',
+            short_description: 'Prestigious estate home with premium finishes, staff quarters, and mature gardens',
+            type: 'Estate',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 60000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 60,000,000',
+            primary_image: {
+                url: 'https://images.pexels.com/photos/33738275/pexels-photo-33738275.jpeg',
+                thumbnail: 'https://images.pexels.com/photos/33738275/pexels-photo-33738275.jpeg?w=400&h=300',
+                caption: 'Luxury estate'
+            },
+            location_summary: 'Muthaiga, Nairobi',
+            bedrooms: 5,
+            bathrooms: 4,
+            interior_size: 539, // ~5800 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: true,
+            view_count: 789,
+            favorite_count: 67,
+            created_at: '2026-01-03T14:00:00Z'
         },
         {
-            id: 12,
+            id: 'hse-006',
+            reference_number: 'REF-2026-012',
             title: 'Contemporary Home in Parklands',
-            price: 28000000,
-            location: 'Parklands, Nairobi',
-            beds: 3,
-            baths: 2,
-            sqft: 3400,
-            image:
-                'https://images.pexels.com/photos/14658637/pexels-photo-14658637.jpeg?_gl=1*b2eyp3*_ga*MTg4NTAwMjcwMy4xNzY5NDU4NjQ3*_ga_8JE65Q40S6*czE3Njk0NTg2NDckbzEkZzEkdDE3Njk0NTg3NzgkajE2JGwwJGgw',
+            slug: 'contemporary-home-parklands',
+            short_description: 'Stylish contemporary home with open-plan living and modern architecture',
+            type: 'House',
+            category: 'Residential',
+            transaction_type: 'SALE' as const,
+            price_amount: 28000000,
+            price_currency: 'KES' as const,
+            price_display: 'KSh 28,000,000',
+            primary_image: {
+                url: 'https://images.pexels.com/photos/14658637/pexels-photo-14658637.jpeg',
+                thumbnail: 'https://images.pexels.com/photos/14658637/pexels-photo-14658637.jpeg?w=400&h=300',
+                caption: 'Contemporary home'
+            },
+            location_summary: 'Parklands, Nairobi',
+            bedrooms: 3,
+            bathrooms: 2,
+            interior_size: 316, // ~3400 sqft converted to m²
+            is_featured: false,
+            is_hot_deal: false,
+            is_new_listing: false,
+            is_exclusive: false,
+            view_count: 234,
+            favorite_count: 21,
+            created_at: '2026-01-16T11:00:00Z'
         },
-    ],
-}
+    ] as ListingCard[],
+};
+
 
 
 
@@ -213,110 +423,18 @@ export default function HomeRecommended() {
             </div>
 
             {/* Listings Grid */}
-            <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4 mb-8">
+            <div className="grid gap-6 md:grid-cols-3 mb-8">
                 {RECOMMENDED_LISTINGS[activeTab]
                     .slice(0, 6)
                     .map((listing) => (
-                        <div
+                        <ListingCardComponent
                             key={listing.id}
-                            className="group cursor-pointer"
-                            // onMouseEnter={() => setHoveredCard(listing.id)}
-                            onMouseLeave={() => setHoveredCard(null)}
-                        >
-                            <div className="bg-white rounded-sm overflow-hidden border-2 border-gray-100 hover:border-orange-200 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                                {/* Image Section */}
-                                <div className="relative h-64 overflow-hidden bg-gray-200">
-                                    <img
-                                        src={listing.image}
-                                        alt={listing.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-
-                                    {/* Gradient Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                                    {/* Tag Badge */}
-                                    {listing.tag && (
-                                        <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-lg text-xs font-bold ${getTagStyles(listing.tag)} shadow-md`}>
-                                            {listing.tag}
-                                        </div>
-                                    )}
-
-                                    {/* Heart Icon */}
-                                    <button
-                                        // onClick={(e) => toggleSaved(e, listing.id)}
-                                        className="absolute top-4 right-4 p-2.5 rounded-lg bg-white/95 backdrop-blur-sm hover:bg-white transition-all duration-200 shadow-md hover:scale-110"
-                                    >
-                                        <Heart
-                                            className={`w-5 h-5 transition-all ${savedListings.has(listing.id)
-                                                ? 'fill-red-500 text-red-500'
-                                                : 'text-gray-600'
-                                                }`}
-                                        />
-                                    </button>
-
-                                    {/* Quick View on Hover */}
-                                    <div className={`absolute inset-x-0 bottom-0 p-4 transform transition-all duration-300 ${hoveredCard === listing.id ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-                                        }`}>
-                                        <button className="w-full bg-white text-gray-900 py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors shadow-lg">
-                                            <Eye className="w-4 h-4" />
-                                            Quick View
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {/* Content Section */}
-                                <div className="p-5">
-                                    {/* Location */}
-                                    <div className="flex items-center gap-1.5 text-gray-500 text-sm mb-2">
-                                        <MapPin className="w-4 h-4 flex-shrink-0 text-primary" />
-                                        <span className="truncate font-medium">{listing.location}</span>
-                                    </div>
-
-                                    {/* Title */}
-                                    <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-3 min-h-[3.5rem] group-hover:text-primary transition-colors">
-                                        {listing.title}
-                                    </h3>
-
-                                    {/* Stats */}
-                                    <div className="flex items-center gap-4 mb-4 pb-4 border-b-2 border-gray-100">
-                                        <div className="flex items-center gap-1.5">
-                                            <div className="p-1.5 bg-orange-50 rounded-lg border border-orange-100">
-                                                <Bed className="w-4 h-4 text-primary" />
-                                            </div>
-                                            <span className="text-sm font-bold text-gray-700">{listing.beds}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5">
-                                            <div className="p-1.5 bg-orange-50 rounded-lg border border-orange-100">
-                                                <Bath className="w-4 h-4 text-primary" />
-                                            </div>
-                                            <span className="text-sm font-bold text-gray-700">{listing.baths}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5">
-                                            <div className="p-1.5 bg-orange-50 rounded-lg border border-orange-100">
-                                                <Maximize2 className="w-4 h-4 text-primary" />
-                                            </div>
-                                            <span className="text-sm font-bold text-gray-700">
-                                                {listing.sqft.toLocaleString()}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    {/* Price */}
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <div className="text-xs text-gray-500 font-semibold mb-0.5">Starting from</div>
-                                            <div className="text-2xl font-black text-primary">
-                                                {formatPrice(listing.price)}
-                                            </div>
-                                        </div>
-                                        <button className="p-3 bg-primary text-white rounded-xl hover:bg-orange-700 transition-all duration-200 hover:scale-110 shadow-md">
-                                            <ChevronRight className="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            listing={listing}
+                        // onCardClick={setHoveredCard}
+                        // onQuickView={handleQuickView}
+                        // onToggleFavorite={handleToggleFavorite}
+                        // isFavorited={favoriteListings.has(listing.id)}
+                        />
                     ))}
             </div>
 

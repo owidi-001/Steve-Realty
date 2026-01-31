@@ -121,4 +121,3 @@ export class BaseService {
         return this.delete(`/${id}/`);
     }
 }
-

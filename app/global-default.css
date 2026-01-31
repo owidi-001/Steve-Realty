@@ -12,6 +12,12 @@
    * - Better contrast ratios for accessibility
    */
 
+  /* Core Brand Colors - Luxury Palette */
+  --pale: #E8D9C4;
+  --rough: #3E160C;
+  --navy: #050A30;
+
+
   /* Core Brand Colors - Refined */
   --background: oklch(0.99 0.005 85);
   /* Warmer white, not stark */
@@ -26,7 +32,8 @@
   --popover-foreground: oklch(0.25 0.015 280);
 
   /* Primary: Sophisticated Terra Cotta */
-  --primary: oklch(0.50 0.15 35);
+  /* --primary: oklch(0.50 0.15 35); */
+  --primary: #785D32;
   /* Deeper, more refined terra cotta */
   --primary-light: oklch(0.65 0.12 35);
   /* Lighter variant */

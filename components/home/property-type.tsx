@@ -30,23 +30,6 @@ export default function HomePropertyType() {
             Look less, find more. Discover your perfect property from our curated categories.
           </p>
         </div>
-        {/* <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6 text-center">
-            
-          </h3> */}
-        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          {PROPERTY_TYPES.map((type) => (
-            <Button
-              key={type.id}
-              variant="outline"
-              className="h-auto flex-col py-6 border-2 border-primary/30 hover:border-primary hover:bg-primary/10 bg-white group transition-all duration-300"
-            >
-              <span className="text-4xl mb-2 group-hover:scale-110 transition-transform">
-                {type.icon}
-              </span>
-              <span className="font-semibold text-foreground">{type.name}</span>
-            </Button>
-          ))}
-        </div> */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-3 sm:gap-4">
           {
             PROPERTY_TYPES.map((type) => (
@@ -57,9 +40,9 @@ export default function HomePropertyType() {
                 onMouseEnter={() => setHoveredType(type.id)}
                 onMouseLeave={() => setHoveredType(null)}
               >
-                <div className={`relative bg-white rounded-2xl border-2 p-6 transition-all duration-300 ${hoveredType === type.id
-                  ? 'border-orange-600 shadow-xl -translate-y-2 bg-orange-50'
-                  : 'border-gray-200 shadow-sm hover:border-orange-300'
+                <div className={`relative bg-white rounded-sm border-2 p-6 transition-all duration-300 ${hoveredType === type.id
+                  ? 'border-primary shadow-xl -translate-y-2 bg-[#3E160C]/50'
+                  : 'border-gray-200 shadow-sm hover:border-[#3E160C]'
                   }`}>
                   {/* Icon Container */}
                   <div className="relative mb-4 flex items-center justify-center">
@@ -84,7 +67,7 @@ export default function HomePropertyType() {
 
                   {/* Content */}
                   <div className="text-center">
-                    <h3 className={`text-lg font-bold mb-1 transition-colors ${hoveredType === type.id ? 'text-orange-600' : 'text-gray-900'
+                    <h3 className={`text-lg font-bold mb-1 transition-colors ${hoveredType === type.id ? 'text-accent' : 'text-gray-900'
                       }`}>
                       {type.name}
                     </h3>
@@ -93,7 +76,7 @@ export default function HomePropertyType() {
                     </p>
 
                     {/* Arrow indicator on hover */}
-                    <div className={`flex items-center justify-center gap-1 text-sm font-bold text-orange-600 transition-all duration-300 ${hoveredType === type.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                    <div className={`flex items-center justify-center gap-1 text-sm font-bold text-accent transition-all duration-300 ${hoveredType === type.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                       }`}>
                       <span>Browse</span>
                       <ChevronRight className="w-4 h-4" />
@@ -101,7 +84,7 @@ export default function HomePropertyType() {
                   </div>
 
                   {/* Corner accent */}
-                  <div className={`absolute top-3 right-3 w-2 h-2 rounded-full transition-all duration-300 ${hoveredType === type.id ? 'bg-orange-600 scale-125' : 'bg-gray-300 scale-100'
+                  <div className={`absolute top-3 right-3 w-2 h-2 rounded-full transition-all duration-300 ${hoveredType === type.id ? 'bg-primary scale-125' : 'bg-gray-300 scale-100'
                     }`}></div>
                 </div>
               </a>

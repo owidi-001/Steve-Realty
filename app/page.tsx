@@ -473,7 +473,7 @@ export default function Home() {
       <HomeGuides />
 
       {/* Selected Partners */}
-      {/* <Partners /> */}
+      <Partners />
 
       {/* Footer */}
       <Footer />

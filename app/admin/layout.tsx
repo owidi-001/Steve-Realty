@@ -2,8 +2,16 @@
 
 import { Home, BarChart3, Building2, FileText, MapPin, Users, UserCheck, DollarSign, CreditCard, Award, MessageSquare, Settings, ChevronDown, Search, Bell, User, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import AdminLoginPage from "./login/page";
+import { useAuth } from "@/hooks/useAuth";
+import { USER_TYPES } from "@/types";
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
+
+    const { user, isLoading, isAuthenticated, logout } = useAuth();
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [activePage, setActivePage] = useState('dashboard');
     const [showUserMenu, setShowUserMenu] = useState(false);
@@ -55,6 +63,42 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         },
     ];
 
+    // Handle logout
+    const handleLogout = async () => {
+        try {
+            await logout();
+            router.push('/admin/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
+
+    // Show loading state
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    // Redirect to login if not authenticated
+    if (!isAuthenticated || !user) {
+        return <AdminLoginPage />;
+    }
+
+    // Only allow admin users
+    if (user.user_type !== USER_TYPES.ADMIN) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
+                    <p className="text-gray-600">You don't have permission to access the admin dashboard.</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Sidebar */}
@@ -75,7 +119,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                             </div>
                         </div>
                     ) : (
-                        <div className="w-8 h-8 bg-gradient-to-br from-orange-600 to-amber-600 rounded-lg flex items-center justify-center mx-auto">
+                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center mx-auto">
                             <Building2 className="w-5 h-5 text-white" />
                         </div>
                     )}
@@ -111,10 +155,12 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                                                         {item.name}
                                                     </span>
                                                     {item.badge && (
-                                                        <span className={`px-2 py-0.5 text-xs font-semibold rounded-full ${isActive
-                                                            ? 'bg-primary text-white'
-                                                            : 'bg-gray-200 text-gray-700'
-                                                            }`}>
+                                                        <span
+                                                            className={`px-2 py-0.5 text-xs font-semibold rounded-full ${isActive
+                                                                ? 'bg-primary text-white'
+                                                                : 'bg-gray-200 text-gray-700'
+                                                                }`}
+                                                        >
                                                             {item.badge}
                                                         </span>
                                                     )}
@@ -152,7 +198,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                             <input
                                 type="text"
                                 placeholder="Search listings, users, agents..."
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                             />
                         </div>
                     </div>
@@ -175,8 +221,11 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                                     <User className="w-5 h-5 text-white" />
                                 </div>
                                 <div className="text-left hidden sm:block">
-                                    <div className="text-sm font-semibold text-gray-900">Admin User</div>
-                                    <div className="text-xs text-gray-500">admin@stevesrealty.com</div>
+                                    {/* ✅ Show actual user data */}
+                                    <div className="text-sm font-semibold text-gray-900">
+                                        {user.full_name || user.username}
+                                    </div>
+                                    <div className="text-xs text-gray-500">{user.email}</div>
                                 </div>
                                 <ChevronDown className="w-4 h-4 text-gray-400" />
                             </button>
@@ -184,16 +233,25 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                             {/* Dropdown */}
                             {showUserMenu && (
                                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2">
-                                    <a href="#" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <button
+                                        onClick={() => router.push('/admin/profile')}
+                                        className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                                    >
                                         <User className="w-4 h-4" />
                                         Profile
-                                    </a>
-                                    <a href="#" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    </button>
+                                    <button
+                                        onClick={() => router.push('/admin/settings')}
+                                        className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                                    >
                                         <Settings className="w-4 h-4" />
                                         Settings
-                                    </a>
+                                    </button>
                                     <hr className="my-2 border-gray-200" />
-                                    <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 text-left"
+                                    >
                                         <LogOut className="w-4 h-4" />
                                         Logout
                                     </button>
@@ -204,9 +262,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                 </header>
 
                 {/* Page Content */}
-                <main className="p-6">
-                    {children}
-                </main>
+                <main className="p-6">{children}</main>
             </div>
         </div>
     );

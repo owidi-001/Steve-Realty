@@ -120,17 +120,6 @@ export default function HomeCTA() {
                                 {/* Overlay gradient */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
-                                {/* Floating stats card */}
-                                <div className="absolute top-8 right-8 bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl transform hover:scale-105 transition-transform">
-                                    <div className="text-3xl font-bold text-gray-900">98%</div>
-                                    <div className="text-sm text-gray-600">Client Satisfaction</div>
-                                    <div className="mt-2 flex items-center gap-1">
-                                        {[1, 2, 3, 4, 5].map((i) => (
-                                            <span key={i} className="text-yellow-400 text-lg">★</span>
-                                        ))}
-                                    </div>
-                                </div>
-
                                 {/* Property info overlay */}
                                 <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
                                     <div className="inline-block bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-semibold mb-3">
@@ -144,10 +133,6 @@ export default function HomeCTA() {
                                     </p>
                                 </div>
 
-                                {/* Decorative elements */}
-                                <div className="absolute top-1/2 left-8 w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <Sparkles className="w-10 h-10 text-white" />
-                                </div>
                             </div>
                         </div>
                     </div>

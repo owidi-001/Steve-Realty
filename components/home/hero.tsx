@@ -100,8 +100,8 @@ export default function HomeHero() {
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full py-8 sm:py-12 md:py-16">
                 <div className="text-center mb-8 sm:mb-10 md:mb-12 md:text-left md:max-w-2xl">
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight mb-3 sm:mb-4 text-white">
-                        Find Your Dream <span className="text-primary">Property</span> in Kenya
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight mb-3 sm:mb-4 text-[#E8D9C4]">
+                        Find Your Dream <span className="text-[#785D32]">Property</span> in Kenya
                     </h1>
                     <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">
                         Discover verified listings from trusted agents. Browse luxury homes, apartments, and
@@ -195,7 +195,7 @@ export default function HomeHero() {
                             {/* Search Button */}
                             <Button
                                 onClick={handleSearch}
-                                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1 sm:gap-2 px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-6 text-xs sm:text-sm md:text-base"
+                                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1 sm:gap-2 px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-6 text-xs sm:text-sm md:text-base rounded-sm"
                             >
                                 <Search className="w-4 sm:w-5 h-4 sm:h-5" />
                                 <span className="inline font-bold">Search</span>

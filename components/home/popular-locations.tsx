@@ -122,7 +122,7 @@ export default function PopularLocations() {
                         {LOCATIONS.map((location) => (
                             <div
                                 key={location.name}
-                                className="flex-shrink-0 w-96 group cursor-pointer"
+                                className="bg-white rounded-sm overflow-hidden border-2  hover:border-[#3E160C]/20 shadow-sm hover:shadow-xl flex-shrink-0 w-96 group cursor-pointer"
                             >
                                 <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col rounded-sm p-0">
                                     <div className="relative h-48 overflow-hidden bg-muted">

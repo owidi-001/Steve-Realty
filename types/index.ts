@@ -8,7 +8,13 @@
 
 export type UUID = string;
 export type ISODateString = string;
-export type Currency = 'KES' | 'USD';
+// export type Currency = 'KES' | 'USD';
+export enum Currency {
+    USD = 'USD',
+    EUR = 'EUR',
+    GBP = 'GBP',
+    KES = 'KES'
+}
 
 // ============================================
 // USER TYPES
@@ -197,7 +203,14 @@ export interface UserStats {
 // LISTING TYPES
 // ============================================
 
-export type TransactionType = 'sale' | 'rent' | 'lease' | 'sale_rent';
+// export type TransactionType = 'sale' | 'rent' | 'lease' | 'sale_rent';
+export enum TransactionType {
+    SALE = 'SALE',
+    RENT = 'RENT',
+    LEASE = 'LEASE'
+}
+
+
 export type ListingStatus =
     | 'draft'
     | 'pending_review'
@@ -869,8 +882,13 @@ export const isOffice = (entity: any): entity is Office => {
 // CONSTANTS
 // ============================================
 
-export const USER_TYPES: UserType[] = ['buyer', 'agent', 'admin'];
-export const TRANSACTION_TYPES: TransactionType[] = ['sale', 'rent', 'lease', 'sale_rent'];
+// export const USER_TYPES: UserType[] = ['buyer', 'agent', 'admin'];
+export const USER_TYPES = {
+    ADMIN: 'admin',
+    AGENT: 'agent',
+    BUYER: 'buyer',
+} as const;
+
 export const LISTING_STATUSES: ListingStatus[] = [
     'draft',
     'pending_review',
@@ -883,7 +901,6 @@ export const LISTING_STATUSES: ListingStatus[] = [
     'inactive',
 ];
 
-export const CURRENCIES: Currency[] = ['KES', 'USD'];
 export const LANGUAGES: Language[] = ['en', 'sw'];
 
 // ============================================
