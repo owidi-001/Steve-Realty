@@ -695,10 +695,10 @@ export default function ListingsPage() {
               <div className="space-y-4">
                 {filteredListings.map((listing) => (
                   <Link key={listing.id} href={`/listings/${listing.id}`}>
-                    <Card className="overflow-hidden group cursor-pointer border border-border/50 transition-all duration-300 hover:shadow-lg hover:border-border">
-                      <div className="flex gap-6 p-5">
+                    <Card className="overflow-hidden group cursor-pointer border border-border/50 transition-all duration-300 hover:shadow-lg hover:border-border rounded-sm p-0 mb-2">
+                      <div className="flex gap-6">
                         {/* Image */}
-                        <div className="h-40 w-56 rounded-lg overflow-hidden flex-shrink-0 bg-muted relative">
+                        <div className="h-40 w-56 rounded-tl-sm rounded-bl-sm overflow-hidden flex-shrink-0 bg-muted relative">
                           <img
                             src={listing.image || '/placeholder.svg'}
                             alt={listing.title}
@@ -715,10 +715,10 @@ export default function ListingsPage() {
                         {/* Content */}
                         <div className="flex-1 flex flex-col justify-between py-2">
                           <div>
-                            <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                            <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                               {listing.title}
                             </h3>
-                            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
+                            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
                               <MapPin className="w-4 h-4" />
                               {listing.location}
                             </div>
@@ -742,7 +742,7 @@ export default function ListingsPage() {
                             </div>
                           </div>
 
-                          <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/30">
+                          <div className="flex items-center justify-between py-2 border-t border-border/30">
                             <div className="text-2xl font-bold text-primary">
                               {formatPrice(listing.price)}
                             </div>

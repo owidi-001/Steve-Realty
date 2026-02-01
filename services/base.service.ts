@@ -17,6 +17,9 @@ export class BaseService {
             `${this.baseURL}${endpoint}`,
             { params }
         );
+        console.log("API RESPONSE: ")
+        console.log(response);
+        console.log("END API RESPOSE")
         return response.data;
     }
 

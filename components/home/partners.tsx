@@ -1,86 +1,129 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
+import { usePartners } from '@/hooks/usePartners'
 import { Partner } from '@/types/partners'
-import { Link } from 'lucide-react';
-import Image from 'next/image';
+import { ChevronLeft, ChevronRight, Link, Loader2 } from 'lucide-react'
+import Image from 'next/image'
+import { useRef } from 'react'
 
-// Data Constants
-const PARTNERS = [
-    {
-        id: "1",
-        name: "KNBS",
-        logoUrl: 'https://www.knbs.or.ke/wp-content/uploads/2023/04/logo-KNBS.png'
-        , website: 'https://www.knbs.or.ke'
-    },
-    {
-        id: "2",
-        name: "Kenya Bankers Association",
-        logoUrl: 'https://www.kba.co.ke/wp-content/uploads/2021/04/kbalogo.png'
-        , website: 'https://www.kba.co.ke'
-    },
-    {
-        id: "3",
-        name: "Law Society of Kenya",
-        logoUrl: 'https://lsk.or.ke/wp-content/uploads/2023/03/logo-white.png',
-        website: 'https://lsk.or.ke'
-    },
-    {
-        id: "4",
-        name: "Real Estate Board of Kenya",
-        logoUrl: 'https://estateagentsboard.or.ke/wp-content/uploads/2020/11/WEB-LOGO-LARGE.png',
-        website: 'https://estateagentsboard.or.ke'
-    },
-    {
-        id: "5",
-        name: "Housing Finance Bank",
-        logoUrl: 'https://www.housingfinance.co.ug/wp-content/uploads/2022/04/hfb-logo-b-start@2x.png',
-        website: 'https://www.housingfinance.co.ug'
-    },
-    {
-        id: "6",
-        name: "Kenya Bureau of Standards",
-        logoUrl: 'https://www.kebs.org/wp-content/uploads/2023/05/kebs_logo.png',
-        website: 'https://www.kebs.org'
-    },
-    {
-        id: "6",
-        name: "Kenya Bureau of Standards",
-        logoUrl: 'https://nairobi.go.ke/wp-content/uploads/logog-1.png',
-        website: 'https://nairobi.go.ke'
-    }
-] as Partner[]
 
 export default function Partners() {
-    return (
-        <section className="py-16 bg-[#3E160C]">
-            <div className="mx-auto container px-4 sm:px-6 lg:px-8">
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
+    const { data: partnersData, isLoading, isError } = usePartners()
 
+    if (isLoading) {
+        return (
+            <section className="py-8 sm:py-12 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-y border-border">
                 <div className="mx-auto container px-4 sm:px-6 lg:px-8">
-                    <div className="mb-12">
-                        <h2 className="text-3xl sm:text-4xl font-bold text-background mb-2">
-                            Selected Partners
+                    <div className="text-start">
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-800 text-balance">
+                            Selected <span className="title text-primary">Partners</span>
                         </h2>
-                        <p className="text-[#E8D9C4]">
-                            Trusted institutions we collaborate with
+
+                        <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-2xl">
+                            Trusted institutions we collaborate with.
                         </p>
                     </div>
+                    <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                    </div>
+                </div>
+            </section>
+        )
+    }
+
+    if (isError || !partnersData) {
+        return (
+            <section className="py-8 sm:py-12 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-y border-border">
+                <div className="mx-auto container px-4 sm:px-6 lg:px-8">
+                    <div className="text-start">
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-800 text-balance">
+                            Selected <span className="title text-primary">Partners</span>
+                        </h2>
+
+                        <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-2xl">
+                            Trusted institutions we collaborate with.
+                        </p>
+                    </div>
+                    <div className="text-center py-12">
+                        <p className="text-destructive">Failed to load partners. Please try again later.</p>
+                    </div>
+                </div>
+            </section>
+        )
+    }
+
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = 300
+            const newScrollPosition = scrollContainerRef.current.scrollLeft +
+                (direction === 'left' ? -scrollAmount : scrollAmount)
+
+            scrollContainerRef.current.scrollTo({
+                left: newScrollPosition,
+                behavior: 'smooth'
+            })
+        }
+    }
+
+    const partners = partnersData.results || [];
+
+    return (
+        <section className="py-8 bg-white shadow">
+            <div className="mx-auto container px-4 sm:px-6 lg:px-8">
+                <div className="text-start">
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-800 text-balance">
+                        Selected <span className="title text-primary">Partners</span>
+                    </h2>
+
+                    <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-2xl">
+                        Trusted institutions we collaborate with.
+                    </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 items-center">
-                    {PARTNERS.map((partner) => (
-                        <Link href={partner.website}
-                            key={partner.id}
-                            className="p-6 flex items-center justify-center hover:shadow-lg transition-shadow min-h-24 rounded-sm"
-                        >
-                            <img src={partner.logoUrl} alt={partner.name} className='object-contain' />
-                            {/* <p className="text-center font-semibold text-foreground text-sm">
-                                {partner.name}
-                            </p> */}
-                        </Link>
-                    ))}
+                <div className="relative group">
+                    {/* Navigation Buttons */}
+                    <button
+                        onClick={() => scroll('left')}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:opacity-50"
+                        aria-label="Scroll left"
+                    >
+                        <ChevronLeft className="w-6 h-6 text-slate-700" />
+                    </button>
+
+                    <button
+                        onClick={() => scroll('right')}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:opacity-50"
+                        aria-label="Scroll right"
+                    >
+                        <ChevronRight className="w-6 h-6 text-slate-700" />
+                    </button>
+
+                    {/* Scrollable Container */}
+                    <div
+                        ref={scrollContainerRef}
+                        className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                        {partners.map((partner: Partner) => (
+                            <a key={partner.id}
+                                href={partner.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-shrink-0 w-40 h-24 bg-white rounded-lg border border-slate-200 hover:border-primary hover:shadow-md transition-all duration-300 p-4 flex items-center justify-center"
+                            >
+                                <img
+                                    src={partner.logo_url}
+                                    alt={partner.name}
+                                    className="max-w-full max-h-full object-contain"
+                                />
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </section>
-    )
+        </section >
+    );
 }

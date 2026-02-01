@@ -42,9 +42,11 @@
   --primary-foreground: oklch(0.99 0 0);
 
   /* Secondary: Warm Neutrals */
-  --secondary: oklch(0.97 0.008 75);
+  /* --secondary: oklch(0.97 0.008 75); */
+  --secondary: #3E160C;
   /* Soft cream with character */
-  --secondary-foreground: oklch(0.25 0.015 280);
+  /* --secondary-foreground: oklch(0.25 0.015 280); */
+  --secondary-foreground: #ffffff;
 
   /* Muted: Better grays */
   --muted: oklch(0.94 0.008 70);

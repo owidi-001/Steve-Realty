@@ -49,16 +49,16 @@ export default function Footer() {
                         <ul className="space-y-2 text-sm text-background/80">
                             <li>
                                 <a href="/admin/dashboard" className="hover:text-background transition-colors">
-                                    Dashboard
+                                    Staff Dashboard
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="hover:text-background transition-colors">
-                                    Careers
+                                    Agent Dashboard
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="hover:text-background transition-colors">
+                                <a href="/blog" className="hover:text-background transition-colors">
                                     Blog
                                 </a>
                             </li>

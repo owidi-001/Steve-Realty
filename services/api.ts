@@ -26,6 +26,7 @@ api.interceptors.request.use(
         return config;
     },
     (error) => {
+        console.log("API ERROR: ${error}")
         return Promise.reject(error);
     }
 );
@@ -38,7 +39,7 @@ api.interceptors.response.use(
             // Unauthorized - clear token and redirect to login
             localStorage.removeItem('auth_token');
             localStorage.removeItem('user');
-            
+
             // Only redirect if not already on login page
             if (window.location.pathname !== '/admin/login') {
                 window.location.href = '/admin/login';

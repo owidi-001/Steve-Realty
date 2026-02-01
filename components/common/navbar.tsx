@@ -41,6 +41,18 @@ export default function MenuBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
 
+    // Helper function to check if a route is active
+    const isActive = (href: string) => {
+        if (href === '/') return pathname === '/'
+        return pathname.startsWith(href)
+    }
+
+    // Helper function to check if any child route is active
+    const hasActiveChild = (children?: SubNavItem[]) => {
+        if (!children) return false
+        return children.some(child => pathname.startsWith(child.href))
+    }
+
     // Main Navigation Items
     const navItems: NavItem[] = [
         {
@@ -84,7 +96,7 @@ export default function MenuBar() {
 
     ]
 
-    
+
     // Main Admin Navigation Items
     const adminNavItems: NavItem[] = [
         {
@@ -133,81 +145,91 @@ export default function MenuBar() {
 
                         {/* Desktop Navigation */}
                         <nav className="hidden lg:flex items-center gap-1">
-                            {navItems.map((item) => (
-                                <div key={item.label} className="relative group">
-                                    {item.children ? (
-                                        <button
-                                            onClick={() => toggleDropdown(item.label)}
-                                            className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors hover:bg-secondary rounded-lg"
-                                        >
-                                            {item.icon}
-                                            {item.label}
-                                            <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
-                                        </button>
-                                    ) : item.label === 'Contact' ? (
-                                        <button
-                                            onClick={handleContactClick}
-                                            className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors hover:bg-secondary rounded-lg"
-                                        >
-                                            {item.icon}
-                                            {item.label}
-                                        </button>
-                                    ) : (
-                                        <Link
-                                            href={item.href}
-                                            className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors hover:bg-secondary rounded-lg"
-                                        >
-                                            {item.icon}
-                                            {item.label}
-                                        </Link>
-                                    )}
+                            {navItems.map((item) => {
+                                const itemIsActive = isActive(item.href) || hasActiveChild(item.children)
 
-                                    {/* Dropdown Menu */}
-                                    {item.children && (
-                                        <div
-                                            className={`absolute left-0 top-full mt-1 w-64 bg-popover border rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${activeDropdown === item.label ? 'opacity-100 visible' : 'opacity-0 invisible'
-                                                }`}
-                                        >
-                                            <div className="p-2">
-                                                {item.children.map((child) => (
-                                                    <Link
-                                                        key={child.label}
-                                                        href={child.href}
-                                                        className="flex flex-col px-3 py-2 text-sm hover:bg-secondary rounded-md transition-colors group/item"
-                                                        onClick={() => setActiveDropdown(null)}
-                                                    >
-                                                        <span className="font-medium text-foreground">{child.label}</span>
-                                                        {child.description && (
-                                                            <span className="text-xs text-muted-foreground mt-0.5">
-                                                                {child.description}
-                                                            </span>
-                                                        )}
-                                                    </Link>
-                                                ))}
+                                return (
+                                    <div key={item.label} className="relative group">
+                                        {item.children ? (
+                                            <button
+                                                onClick={() => toggleDropdown(item.label)}
+                                                className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10 rounded-lg ${itemIsActive
+                                                    ? 'text-primary bg-primary/10'
+                                                    : 'text-foreground/80 hover:text-foreground'
+                                                    }`}
+                                            >
+                                                {item.icon}
+                                                {item.label}
+                                                <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
+                                            </button>
+                                        ) : item.label === 'Contact' ? (
+                                            <button
+                                                onClick={handleContactClick}
+                                                className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors hover:bg-primary/10 rounded-lg"
+                                            >
+                                                {item.icon}
+                                                {item.label}
+                                            </button>
+                                        ) : (
+                                            <Link
+                                                href={item.href}
+                                                className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10 rounded-lg ${itemIsActive
+                                                    ? 'text-primary bg-primary/10'
+                                                    : 'text-foreground/80 hover:text-foreground'
+                                                    }`}
+                                            >
+                                                {item.icon}
+                                                {item.label}
+                                            </Link>
+                                        )}
+
+                                        {/* Dropdown Menu */}
+                                        {item.children && (
+                                            <div
+                                                className={`absolute left-0 top-full mt-1 w-64 bg-popover border rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${activeDropdown === item.label ? 'opacity-100 visible' : 'opacity-0 invisible'
+                                                    }`}
+                                            >
+                                                <div className="p-2">
+                                                    {item.children.map((child) => (
+                                                        <Link
+                                                            key={child.label}
+                                                            href={child.href}
+                                                            className="flex flex-col px-3 py-2 text-sm hover:bg-primary/10 rounded-md transition-colors group/item"
+                                                            onClick={() => setActiveDropdown(null)}
+                                                        >
+                                                            <span className="font-medium text-foreground">{child.label}</span>
+                                                            {child.description && (
+                                                                <span className="text-xs text-muted-foreground mt-0.5">
+                                                                    {child.description}
+                                                                </span>
+                                                            )}
+                                                        </Link>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                        )}
+                                    </div>
+                                )
+                            })}
                         </nav>
 
                         {/* User Actions */}
                         <div className="hidden lg:flex items-center gap-2">
-                            <Link href={'/become-agent'} className="flex items-center px-2 py-1 gap-2 rounded-sm bg-primary text-primary-foreground hover:bg-primary/90">
+                            <Link href={'/become-agent'} className="flex items-center gap-2 border border-secondary/50 rounded-xl px-3 py-1.5 hover:bg-secondary/10 hover:text-secondary">
                                 <UserPlus className="w-4 h-4" />
                                 <span>Become an Agent</span>
                             </Link>
-                            <Button
+                            {/* <Button
                                 variant="outline"
-                                size="sm"
-                                className='rounded-sm hover:text-white'
+                                // size="lg"
+                                className='rounded-xl hover:text-white py-1.5 px-3 border border-primary'
                                 asChild
                             >
-                                <Link href="/calculator" className="flex items-center gap-2">
+                                <Link href="/calculator" className="flex items-center gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
                                     <LogIn className="w-6 h-6" />
                                     Login
                                 </Link>
-                            </Button>
+                            </Button> */}
                         </div>
 
                         {/* Mobile Menu Button */}
@@ -227,61 +249,69 @@ export default function MenuBar() {
                     <div className="lg:hidden border-t border-border">
                         <div className="container mx-auto px-4 py-4">
                             <div className="space-y-2">
-                                {navItems.map((item) => (
-                                    <div key={item.label} className="border-b border-border/40 last:border-0">
-                                        {item.children ? (
-                                            <>
+                                {navItems.map((item) => {
+                                    const itemIsActive = isActive(item.href) || hasActiveChild(item.children)
+
+                                    return (
+                                        <div key={item.label} className="border-b border-border/40 last:border-0">
+                                            {item.children ? (
+                                                <>
+                                                    <button
+                                                        onClick={() => toggleDropdown(item.label)}
+                                                        className={`flex items-center justify-between w-full py-3 text-left ${itemIsActive ? 'text-primary' : 'text-foreground'
+                                                            }`}
+                                                    >
+                                                        <div className="flex items-center gap-2">
+                                                            {item.icon}
+                                                            <span className="font-medium">{item.label}</span>
+                                                        </div>
+                                                        <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
+                                                    </button>
+                                                    {activeDropdown === item.label && (
+                                                        <div className="pl-6 pb-3 space-y-2">
+                                                            {item.children.map((child) => (
+                                                                <Link
+                                                                    key={child.label}
+                                                                    href={child.href}
+                                                                    className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                                                    onClick={() => {
+                                                                        setIsMenuOpen(false)
+                                                                        setActiveDropdown(null)
+                                                                    }}
+                                                                >
+                                                                    {child.label}
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </>
+                                            ) : item.label === 'Contact' ? (
                                                 <button
-                                                    onClick={() => toggleDropdown(item.label)}
-                                                    className="flex items-center justify-between w-full py-3 text-left"
+                                                    onClick={(e) => {
+                                                        handleContactClick(e)
+                                                        setIsMenuOpen(false)
+                                                    }}
+                                                    className="flex items-center gap-2 py-3 text-foreground hover:text-primary transition-colors w-full text-left"
                                                 >
-                                                    <div className="flex items-center gap-2">
-                                                        {item.icon}
-                                                        <span className="font-medium">{item.label}</span>
-                                                    </div>
-                                                    <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
+                                                    {item.icon}
+                                                    <span className="font-medium">{item.label}</span>
                                                 </button>
-                                                {activeDropdown === item.label && (
-                                                    <div className="pl-6 pb-3 space-y-2">
-                                                        {item.children.map((child) => (
-                                                            <Link
-                                                                key={child.label}
-                                                                href={child.href}
-                                                                className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                                                onClick={() => {
-                                                                    setIsMenuOpen(false)
-                                                                    setActiveDropdown(null)
-                                                                }}
-                                                            >
-                                                                {child.label}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </>
-                                        ) : item.label === 'Contact' ? (
-                                            <button
-                                                onClick={(e) => {
-                                                    handleContactClick(e)
-                                                    setIsMenuOpen(false)
-                                                }}
-                                                className="flex items-center gap-2 py-3 text-foreground hover:text-primary transition-colors w-full text-left"
-                                            >
-                                                {item.icon}
-                                                <span className="font-medium">{item.label}</span>
-                                            </button>
-                                        ) : (
-                                            <Link
-                                                href={item.href}
-                                                className="flex items-center gap-2 py-3 text-foreground hover:text-primary transition-colors"
-                                                onClick={() => setIsMenuOpen(false)}
-                                            >
-                                                {item.icon}
-                                                <span className="font-medium">{item.label}</span>
-                                            </Link>
-                                        )}
-                                    </div>
-                                ))}
+                                            ) : (
+                                                <Link
+                                                    href={item.href}
+                                                    className={`flex items-center gap-2 py-3 transition-colors ${itemIsActive
+                                                        ? 'text-primary font-semibold'
+                                                        : 'text-foreground hover:text-primary'
+                                                        }`}
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                >
+                                                    {item.icon}
+                                                    <span className="font-medium">{item.label}</span>
+                                                </Link>
+                                            )}
+                                        </div>
+                                    )
+                                })}
 
                                 {/* Mobile User Actions */}
                                 <div className="pt-4 border-t border-border">

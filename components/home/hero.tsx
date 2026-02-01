@@ -92,7 +92,7 @@ export default function HomeHero() {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
                     backgroundImage:
-                        'url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&h=900&fit=crop")',
+                        'url("/images/hero_home.png")',
                 }}
             >
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />

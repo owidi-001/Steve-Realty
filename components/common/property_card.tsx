@@ -1,42 +1,14 @@
 import React, { useState } from 'react';
 import { Heart, MapPin, Bed, Bath, Maximize2, Eye, ChevronRight } from 'lucide-react';
-import { TransactionType, Currency } from '@/types';
+import { TransactionType, Currency, ListingCard } from '@/types';
+import Image from 'next/image'
+
 
 // Types
 type UUID = string;
 type ISODateString = string;
 
 
-
-interface ListingCard {
-    id: UUID;
-    reference_number: string;
-    title: string;
-    slug: string;
-    short_description?: string;
-    type: string;
-    category: string;
-    transaction_type: TransactionType;
-    price_amount: number;
-    price_currency: Currency;
-    price_display: string;
-    primary_image?: {
-        url: string;
-        thumbnail: string;
-        caption?: string;
-    };
-    location_summary: string;
-    bedrooms?: number;
-    bathrooms?: number;
-    interior_size?: number;
-    is_featured: boolean;
-    is_hot_deal: boolean;
-    is_new_listing: boolean;
-    is_exclusive: boolean;
-    view_count: number;
-    favorite_count: number;
-    created_at: ISODateString;
-}
 
 interface ListingCardComponentProps {
     listing: ListingCard;
@@ -46,6 +18,14 @@ interface ListingCardComponentProps {
     isFavorited?: boolean;
     className?: string;
 }
+
+const getImageUrl = (url: string) => {
+    // If URL is relative, prepend API base URL
+    if (url.startsWith('/')) {
+        return `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '')}${url}`;
+    }
+    return url;
+};
 
 const ListingCardComponent: React.FC<ListingCardComponentProps> = ({
     listing,
@@ -124,7 +104,7 @@ const ListingCardComponent: React.FC<ListingCardComponentProps> = ({
                 {/* Image Section */}
                 <div className="relative h-64 overflow-hidden bg-gray-200">
                     <img
-                        src={imageUrl}
+                        src={getImageUrl(listing.primary_image?.url || '')}
                         alt={listing.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

@@ -126,14 +126,14 @@ export default function ContactComponent() {
 
     return (
         <section className="py-12 px-4 bg-primary/10" id="contact">
-            <div className="container mx-auto max-w-7xl">
+            <div className="container mx-auto">
                 {/* Section Header */}
-                <div className="text-center mb-12">
+                <div className="text-start mb-12">
                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-800 text-balance mb-6">
                         Stay <span className="title text-primary">Connected</span> With Us
                     </h2>
 
-                    <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-2xl mx-auto">
+                    <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-2xl">
                         Reach out through your preferred platform. We're here to help with any questions about your dream property.
                     </p>
                 </div>

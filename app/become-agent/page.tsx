@@ -5,7 +5,8 @@ import {
   User, Award,
   CheckCircle, Shield, Users, TrendingUp, DollarSign,
   FileText, Building2, Sparkles,
-  ArrowRight, Check, X, HelpCircle, ExternalLink
+  ArrowRight, Check, X, HelpCircle, ExternalLink,
+  ChevronDown
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -539,36 +540,75 @@ export default function BecomeAgentPage() {
     }
   }
 
+
+  const FAQItem = ({ faq }: { faq: { question: string; answer: string } }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <Card className="overflow-hidden rounded-sm p-0">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full p-4 flex items-center justify-between gap-3 text-left hover:bg-muted/50 transition-colors"
+        >
+          <div className="flex items-start gap-3 flex-1">
+            <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+            <h4 className="font-semibold text-foreground">
+              {faq.question}
+            </h4>
+          </div>
+          <ChevronDown
+            className={`w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+              }`}
+          />
+        </button>
+        <div
+          className={`overflow-hidden transition-all duration-200 ${isOpen ? 'max-h-96' : 'max-h-0'
+            }`}
+        >
+          <p className="px-4 pb-4 pl-12 text-muted-foreground">
+            {faq.answer}
+          </p>
+        </div>
+      </Card>
+    );
+  };
+
   return (
     <main className="min-h-screen bg-background">
       {/* Menu Bar */}
       <MenuBar />
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b border-border/50">
-        <div className="mx-auto container px-4 sm:px-6 lg:px-8 py-12 py-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-              Join Our Elite Team
-            </div>
+      <section className="relative overflow-hidden min-h-[300px] sm:min-h-[300px] flex items-center  md:pt-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage:
+              'url("/images/hero_agent.png")',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+        </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+        <div className="relative mx-auto container px-4 sm:px-6 lg:px-8 py-8">
+          <div className="mx-auto text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-balance leading-tight mb-3 sm:mb-4 text-[#E8D9C4]">
               Become a <span className="text-primary">Real Estate Agent</span>
             </h1>
 
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto">
               Start your rewarding career in real estate with Kenya's leading property agency.
               Earn unlimited income while helping people find their dream homes.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="gap-2" asChild>
+              <Button size="lg" className="gap-2 rounded-sm font-bold" asChild>
                 <Link href="#application">
                   Start Application
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" variant="outline" className='rounded-sm text-white font-bold bg-transparent border-white hover:bg-secondary hover:text-white hover:border-secondary' asChild>
                 <a href="#benefits">
                   Learn More
                 </a>
@@ -576,7 +616,7 @@ export default function BecomeAgentPage() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Benefits Section */}
       <div id="benefits" className="py-12">
@@ -593,7 +633,7 @@ export default function BecomeAgentPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {BENEFITS.map((benefit, index) => (
               <Card key={index} className="p-4 hover:shadow-lg transition-shadow rounded-sm">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-sm flex items-center justify-center">
                   {benefit.icon}
                 </div>
                 <h3 className="text-lg font-semibold text-foreground">
@@ -671,34 +711,37 @@ export default function BecomeAgentPage() {
       </div>
 
       {/* Application Process */}
-      <div className="py-12">
+      <div className="py-6">
         <div className="mx-auto container px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-2">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-bold text-foreground mb-1">
               Simple 4-Step Process
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xs text-muted-foreground">
               From application to your first sale in just 30 days
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             {STEPS.map((step) => (
               <div key={step.number} className="relative">
-                <Card className="p-6 text-center rounded-sm">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 ${currentStep >= step.number ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
-                    <span className="font-bold text-lg">{step.number}</span>
+                <Card className="p-4 rounded-sm h-full">
+                  <div className="flex items-start gap-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${currentStep >= step.number ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                      <span className="font-bold text-sm">{step.number}</span>
+                    </div>
+                    <div className="flex-1 pt-0.5">
+                      <h3 className="font-semibold text-sm text-foreground mb-1 leading-tight">
+                        {step.title}
+                      </h3>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {step.description}
-                  </p>
                 </Card>
                 {step.number < 4 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 transform translate-x-1/2 -translate-y-1/2">
-                    <ArrowRight className="w-6 h-6 text-muted-foreground" />
+                  <div className="hidden lg:block absolute top-1/2 -right-1.5 transform translate-x-1/2 -translate-y-1/2 z-10">
+                    <ArrowRight className="w-4 h-4 text-muted-foreground/40" />
                   </div>
                 )}
               </div>
@@ -706,7 +749,6 @@ export default function BecomeAgentPage() {
           </div>
         </div>
       </div>
-
       {/* Application Form */}
       <div id="application" className="py-16 bg-muted/30">
         <div className="mx-auto container px-4 sm:px-6 lg:px-8">
@@ -735,7 +777,7 @@ export default function BecomeAgentPage() {
               </div>
             </div>
           ) : (
-            <Card className="max-w-6xl mx-auto overflow-hidden p-0 rounded-sm">
+            <Card className="mx-auto overflow-hidden p-0 rounded-sm">
               {/* Progress Bar */}
               <div className="bg-muted border-b border-border p-6">
                 <div className="flex items-center justify-between mb-2">
@@ -819,7 +861,7 @@ export default function BecomeAgentPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {TESTIMONIALS.map((testimonial, index) => (
-              <Card key={index} className="p-6">
+              <Card key={index} className="p-6 rounded-sm">
                 <div className="flex items-center gap-4 mb-4">
                   <img
                     src={testimonial.image}
@@ -860,7 +902,7 @@ export default function BecomeAgentPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {[
               {
                 question: 'Do I need real estate experience?',
@@ -887,19 +929,7 @@ export default function BecomeAgentPage() {
                 answer: 'Our team reviews applications within 2-3 business days. If shortlisted, we\'ll contact you to schedule an interview.'
               }
             ].map((faq, index) => (
-              <Card key={index} className="p-6">
-                <div className="flex items-start gap-3">
-                  <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-2">
-                      {faq.question}
-                    </h4>
-                    <p className="text-muted-foreground">
-                      {faq.answer}
-                    </p>
-                  </div>
-                </div>
-              </Card>
+              <FAQItem key={index} faq={faq} />
             ))}
           </div>
 
@@ -916,7 +946,6 @@ export default function BecomeAgentPage() {
           </div>
         </div>
       </div>
-
       {/* CTA Section */}
       <div className="py-16 bg-gradient-to-r from-primary to-primary/90">
         <div className="mx-auto container px-4 sm:px-6 lg:px-8 text-center">

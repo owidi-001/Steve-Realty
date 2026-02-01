@@ -13,7 +13,7 @@ import {
 
 class ListingService extends BaseService {
     constructor() {
-        super('/listings/listings');
+        super('/listings');
     }
 
     async search(filters: SearchFilters): Promise<PaginatedResponse<ListingList>> {

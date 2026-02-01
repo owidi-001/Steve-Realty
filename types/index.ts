@@ -105,6 +105,22 @@ export interface ChangePassword {
     new_password_confirm: string;
 }
 
+// Common
+export interface Partner {
+    id: number;
+    name: string;
+    website: string;
+    logo_url: string
+}
+
+// Subscriber
+export interface Subscriber {
+    id: number;
+    name: string;
+    email: string;
+    dateSubscribed: ISODateString;
+}
+
 export interface FavoriteListing {
     id: number;
     listing: number;
@@ -228,7 +244,6 @@ export interface ListingCategory {
     id: number;
     title: string;
     slug: string;
-    description?: string;
     icon?: string;
     type_count?: number;
     meta_title?: string;
